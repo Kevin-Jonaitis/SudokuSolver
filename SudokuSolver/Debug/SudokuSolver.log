@@ -1,0 +1,22 @@
+﻿Build started 12/3/2013 9:54:32 PM.
+     1>Project "k:\documents\visual studio 2013\Projects\SudokuSolver\SudokuSolver\SudokuSolver.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Solver.cpp
+         Solver.cpp
+     1>k:\documents\visual studio 2013\projects\sudokusolver\sudokusolver\utilities.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>k:\documents\visual studio 2013\projects\sudokusolver\sudokusolver\settings.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>k:\documents\visual studio 2013\projects\sudokusolver\sudokusolver\solver.cpp(103): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>k:\documents\visual studio 2013\projects\sudokusolver\sudokusolver\solver.cpp(294): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>k:\documents\visual studio 2013\projects\sudokusolver\sudokusolver\solver.cpp(320): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>k:\documents\visual studio 2013\projects\sudokusolver\sudokusolver\solver.cpp(168): warning C4715: 'generatePuzzle' : not all control paths return a value
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"k:\documents\visual studio 2013\Projects\SudokuSolver\Debug\SudokuSolver.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"k:\documents\visual studio 2013\Projects\SudokuSolver\Debug\SudokuSolver.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"k:\documents\visual studio 2013\Projects\SudokuSolver\Debug\SudokuSolver.lib" /MACHINE:X86 Debug\Heuristics.obj
+         Debug\Position.obj
+         Debug\Solver.obj
+         Debug\Utilities.obj
+         SudokuSolver.vcxproj -> k:\documents\visual studio 2013\Projects\SudokuSolver\Debug\SudokuSolver.exe
+     1>Done Building Project "k:\documents\visual studio 2013\Projects\SudokuSolver\SudokuSolver\SudokuSolver.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.75
