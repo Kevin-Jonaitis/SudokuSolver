@@ -11,6 +11,7 @@ vector <int> allPossibleChoices;
 
 
 void setValues() {
+	allPossibleChoices.clear();
 	for (int i = 1; i <= N; i++) {
 		allPossibleChoices.push_back(i);
 	}
@@ -82,10 +83,11 @@ vector<int> domainSetupPossibleValues(int x, int y) {
 }
 
 void setStartingDomain() {
-	setValues();
+	setValues(); //Sets the global list of all possibles values for a spot in the Heursitics class
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
 			vector<int> possibilities = domainSetupPossibleValues(i, j);
+			//cout << "J " << j;
 			for (auto k : possibilities) {
 				domain[i][j][k] = true;
 			}

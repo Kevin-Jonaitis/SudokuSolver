@@ -75,7 +75,12 @@ void readInInput(string filename) {
 		return;
 	}
 
-	initalizeObjets();
+	//allocate the 2D array
+	puzzle = new int *[N];
+	for (int i = 0; i < N; i++){
+		puzzle[i] = new int[N];
+	}
+
 
 	//initalize the array
 	for (int i = 0; i < N; i++) {
@@ -93,9 +98,7 @@ void readInInput(string filename) {
 		}
 	}
 
-	//Set the starting boolean values
-	setStartingDomain();
-
+	initalizeDomain();
 
 }
 void initalizeGenerator(string inputfile) {
@@ -134,7 +137,10 @@ bool generatePuzzle() {
 	vector<vector<int>> positions;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
-			vector<int> position= { i, j };
+			vector<int> position;
+			position.push_back(i);
+			position.push_back(j);
+			//vector<int> position= { i, j };
 			positions.push_back(position);
 		}
 	}
@@ -235,7 +241,6 @@ int main(int argc, char* argv[]) {
 		writeToFile(argv[3]);
 	}
 	else if (mode == "C"){
-		//runCalculation(9, 10, 5);
 		runCalculations();
 	}
 	else {
@@ -289,27 +294,68 @@ void deleteObjects() {
 	delete[] domain;
 }
 
+void initalizeDomain() {
+
+	//allocate 3D array of bool
+	domain = new bool **[N];
+	for (int i = 0; i < N; i++) {
+		domain[i] = new bool *[N];
+		for (int j = 0; j < N; j++){
+			domain[i][j] = new bool[N+1];
+		}
+	}
+
+	//initalize all values to false
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++){
+			for (int k = 0; k <= N; k++) {
+				domain[i][j][k] = false;
+			}
+		}
+	}
+
+
+	setStartingDomain();
+}
+
+void runCalcuationsTwo(ofstream& file, int i) {
+
+	for (int j = 0; j <= i*i / 2; j++) { //only do up to the middle of M
+		double failures = 0;
+		double totals = 0;
+		for (int k = 3; k <= 5; k++){
+			for (int m = 0; m < 10; m++) {
+				vector<int> results = runCalculation(i, j, k);
+				if (results.at(4) == 0) //check for solvability
+					failures++;
+				totals++;
+				double percent = failures / totals;
+				if (percent > 0.50 && totals > 5) {
+					file << std::flush;
+					return;
+				}
+
+				for (auto res : results) {
+					file << res << ",";
+				}
+				file << "\n";
+			}
+			file << std::flush;
+
+		}
+	}
+
+}
 void runCalculations(){
 
 	srand(time(0)); //set the seed to the current time
 
 
 	//vector<int> results = runCalculation(1,0,3);
-
-	ofstream file("9statistics.txt");
-	for (int i = 9; i <= 10; i++){ // N
-		for (int j = 0; j <= i*i/2; j++) { //only do up to the middle of M
-			for (int k = 1; k <= 5; k++){
-				for (int m = 0; m < 15; m++) { //run each simulation 15 times
-					vector<int> results = runCalculation(i, j, k);
-					for (auto res : results) {
-						file << res << ",";
-					}
-					file << "\n";
-				}
-				file << std::flush;
-			}
-		}
+	//ofstream fileName;
+	ofstream file("50percentFailureStats.txt");
+	for (int i = 11; i <= 40; i++){ // N
+		runCalcuationsTwo(file, i);
 	}
 
 	file.close();
@@ -327,39 +373,39 @@ vector<int> runCalculation(int N_pass, int M_pass, int setting) {
 	N = N_pass;
 	M = M_pass;
 	SETTING = 0; //must be 0 for generator to run correctly
+	setValues(); //DO NOT DELETE, OR FEEL THE WRATH OF A DEEPLY-SET PROGRAMMING BUG.
 
-	setValues(); //Sets the global list of all possibles values for a spot in the Heursitics class
+	//allocate the 2D array
+	puzzle = new int *[N];
+	for (int i = 0; i < N; i++){
+		puzzle[i] = new int[N];
+	}
 
-	initalizeObjets();
-
-	generatePuzzle();
-	printOutput();
-
+	while(!generatePuzzle());
+	//printOutput();
 
 	ftime(&TOTAL_START);
+	initalizeDomain();
 	SETTING = setting;
 	filledPositions = M;
-
-	//Set the starting boolean values
-	setStartingDomain();
 
 	vector<int> start;
 	start.push_back(0);
 	start.push_back(-1);
 	ftime(&SEARCH_START);
 	solutionFound = BT(getNextPosition(start));
-	ftime(&END);
-	printOutput();
-
-
+	//printOutput();
 	deleteObjects();
-
+	ftime(&END);
 
 	int time;
 	int solution;
 	int timeout;
+	int searchTime;
 
 	time = (int)(1000.0 * (END.time - TOTAL_START.time) + (END.millitm - TOTAL_START.millitm));
+	searchTime = (int)(1000.0 * (END.time - SEARCH_START.time) + (END.millitm - SEARCH_START.millitm));
+
 	if (solutionFound)
 		solution = 1;
 	else
@@ -378,37 +424,7 @@ vector<int> runCalculation(int N_pass, int M_pass, int setting) {
 	result.push_back(timeout);
 	result.push_back(solution);
 	result.push_back(SETTING);
+	result.push_back(searchTime);
 
 	return result;
-}
-
-
-void initalizeObjets() {
-
-	//allocate the 2D array
-	puzzle = new int *[N];
-	for (int i = 0; i < N; i++){
-		puzzle[i] = new int[N];
-	}
-
-	//allocate 3D array of bool
-	domain = new bool **[N];
-	for (int i = 0; i < N; i++) {
-		domain[i] = new bool *[N];
-		for (int j = 0; j < N; j++){
-			domain[i][j] = new bool[N];
-		}
-	}
-
-	//initalize all values to false
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++){
-			for (int k = 0; k <= N; k++) {
-				domain[i][j][k] = false;
-			}
-		}
-	}
-
-
-
 }

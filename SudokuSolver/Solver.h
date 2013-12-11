@@ -13,7 +13,7 @@ extern int filledPositions;
 
 
 void deleteObjects();
-void initalizeObjets();
+void initalizeDomain();
 
 bool BT(vector<int> currentPosition);
 void readInInput(string filename);

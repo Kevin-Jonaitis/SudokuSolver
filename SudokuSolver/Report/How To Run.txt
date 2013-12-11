@@ -1,0 +1,26 @@
+To run the solver, input command line arguments like so:
+SudokuSolver.exe S [inputFileName] [HeuristicLevel] [outputfile]
+
+Ex: 
+SodokuSolver.exe S hard.txt 5
+
+Where inputFileName is the name of the file you want to program to solve and HeuristicLevel is an number 1 - 5 of the Huertistic level you want to run. The outputFile is an optional argument you can specify for writing the output of a solution to a file.
+
+The heuristic levels are detailed below:
+
+Heuristic Levels:
+1: Backtracking only (BT)
+2: Backtracking plus Forward checking (BT + FC)
+3: BT + FC + minimum remaining values (MRV)
+4: BT + FC + MRV + Degree Heuristic (DH)
+5: BT + FC + MRV + DH + Least Constraining Value (LCV)
+
+To run the generator, input command line arguments like so:
+SudokuSolver.exe G [inputFileName] [outputFileName]
+
+Ex:
+SudokuSolver.exe G input.txt output.txt
+
+Where inputFileName is the name of the input file to read in from and outputFileName is the name of the output file.
+
+
